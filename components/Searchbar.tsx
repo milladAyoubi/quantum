@@ -1,5 +1,5 @@
 "use client"
-import {FormEvent, useState} from 'react'
+import {FormEvent, use, useState} from 'react'
 
 const isValidAmazonProductURL = (url: string) => {
   try {
@@ -16,12 +16,23 @@ const isValidAmazonProductURL = (url: string) => {
 import React from 'react'
 
 const Searchbar = () => {
-    const [searchprompt, setSearchPrompt] = useState('')
+    const [searchPrompt, setSearchPrompt] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const isValidLink = isValidAmazonProductURL(searchprompt)
+      const isValidLink = isValidAmazonProductURL(searchPrompt)
+      if(!isValidLink) return alert('Please Provide a Valid Amazon Link')
 
-      alert(isValidLink ? 'Valid link' : 'Invalid link')
+      try {
+        setIsLoading(true)
+
+        
+      }catch (error) {
+        console.log(error)
+      } finally {
+        setIsLoading(false)
+      }
+     
     }
   return (
     <form 
@@ -35,8 +46,12 @@ const Searchbar = () => {
         
         />
 
-        <button type="submit" className='searchbar-btn'>
-            Search
+        <button 
+        
+        type="submit" 
+        className='searchbar-btn'
+        disabled={searchPrompt === ''}>
+            {isLoading ? 'Searching...' : 'Search'}
         </button>
 
     </form>
