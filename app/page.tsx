@@ -18,7 +18,7 @@ const Home = () => {
       </p>
       <h1 className='head-text'>
         Unleash The Power Of 
-        <span className='text-primary'>Quantum</span> 
+        <span className='text-primary'> Quantum</span> 
       </h1>
       <p className='mt-6'>
         A way for you to surf the web for the best avalible prices of the products you need to grow, convert and engage. 
