@@ -24,8 +24,8 @@ const Searchbar = () => {
       if(!isValidLink) return alert('Please Provide a Valid Amazon Link')
 
       try {
+        //Webscraping primary function executed in this block
         setIsLoading(true)
-
         
       }catch (error) {
         console.log(error)
