@@ -1,4 +1,5 @@
 "use client"
+import { scrapeStoreProduct } from '@/lib/actions'
 import {FormEvent, use, useState} from 'react'
 
 const isValidAmazonProductURL = (url: string) => {
@@ -18,7 +19,7 @@ import React from 'react'
 const Searchbar = () => {
     const [searchPrompt, setSearchPrompt] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const isValidLink = isValidAmazonProductURL(searchPrompt)
       if(!isValidLink) return alert('Please Provide a Valid Amazon Link')
@@ -26,7 +27,7 @@ const Searchbar = () => {
       try {
         //Webscraping primary function executed in this block
         setIsLoading(true)
-        
+        const product = await scrapeStoreProduct(searchPrompt);
       }catch (error) {
         console.log(error)
       } finally {
@@ -40,6 +41,8 @@ const Searchbar = () => {
     onSubmit={handleSubmit}>
 
         <input 
+        value={searchPrompt}
+        onChange={(e) => setSearchPrompt(e.target.value)}
         placeholder='Enter Product link'
         className='searchbar-input'
         type="text"
