@@ -30,11 +30,23 @@ export async function scrapeAmazonProduct (url:string) {
         const currentPrice = extractPrice(
             cheer('.priceToPay span.a-price-whole'),
             cheer('a.size.basea-color-price'),
-            cheer('.a-button-selected .a-color-base')
+            cheer('.a-button-selected .a-color-base'),
+            cheer('a-price.a-text-price')
         );
-        
 
-        console.log({title, currentPrice})
+        const orgPrice = extractPrice(
+            cheer('#priceblock_ourprice'),
+            cheer('.a-price.a-text-price span.a-offscreen'),
+            cheer('#listPrice'),
+            cheer('#priceblock_dealprice'),
+            cheer('.a-size-base.a-color-price')
+        );
+
+        const outOfStock = cheer('#avalibility span').text().trim().toLowerCase() === 'currently unavailable'
+        
+        const image = cheer('#imgBlkFront').attr('data-a-dynamic-image') || cheer('#landingImage').attr('data-a-dynamic-image')
+
+        console.log({title, currentPrice, orgPrice, outOfStock})
         //console.log(response.data);
     } catch (error: any) {
         throw new Error(`Failed to scrape product: ${error.message}`)
